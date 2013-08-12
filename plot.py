@@ -420,7 +420,9 @@ if __name__=='__main__':
         quit()
 
     d = Detector(sys.argv[1])
+    d.detect()
     print("\nMedian + Standard error * %.1f in each step:" % sigma_level)
+    
     for i in range(len(d.std_err)):
         line = d.median[i] + d.std_err[i]
         print("  step %2d: %f" % (i, line))

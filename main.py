@@ -18,10 +18,6 @@ wma_width = 7  # [wma_width] points weighted moving average
 
 if __name__=='__main__':
 
-    global win_width
-    global win_slide
-    global sigma_level
-
     if len(sys.argv) != 3:
         print("Usage: # python %s source_file dst_dir" % sys.argv[0])
         print("%s" % sys.argv[2])
@@ -49,11 +45,11 @@ if __name__=='__main__':
     d.plot(sys.argv[1][8:-4], sys.argv[2], win_width, win_slide, sigma_level)
 
     # write result to CSV file
-    f = open(sys.argv[2] + "/" + sys.argv[1][8:-4] + "/" + "result.csv", "w")
+    f = open(sys.argv[2] + "/" + sys.argv[1][8:-4] + "/result.csv", "w")
     f.write(sys.argv[1][8:-4] + "\n")
     f.write("Observartion Period: %.1f - %.1f\n" % (d.time[0], d.time[-1]))
     f.write("No,Start,End,Length,Value\n")
-    for i in range(0, len(d.bst_term_all)):
+    for i in range(len(d.bst_term_all)):
         f.write("%d,%f,%f,%d,%f\n" % (i + 1, d.time[d.bst_term_all[i][0]], d.time[d.bst_term_all[i][1]], int(d.bst_term_all[i][1] - d.bst_term_all[i][0] + 1.0), d.bst_val[i]))
-    
+
         

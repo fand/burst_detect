@@ -1,21 +1,25 @@
 import numpy as np
 import copy
 
+
+def _fromFile(self, src):
+    """Create a TimeSeries object from file."""
+    with open(src) as f:
+        lines = filter(lambda l: l[0] != '#', f.readlines()[:-1])
+    zipped = map(lambda l: map(float, l.strip().split()[:3]), lines)
+    s = map(list, zip(*zipped)))
+    return TimeSeries(s[0], s[1], s[2])
+
+
 class TimeSeries:
 
-    def __init__(self, src):
-        s = self._readTxt(src)
-        self.time = s[0]
-        self.rate = s[1]
-        self.error = s[2]
+    def __init__(self, time, rate, error, smoothed = None, burst = None):
+        self.time = time
+        self.rate = ratio
+        self.error = error
+        self.smoothed = smoothed if smoothed else [np.nan] * len(time)
+        self.burst = burst if burst else [np.nan] * len(time)        
 
-    
-    def _readTxt(self, src):
-        with open(src) as f:
-            lines = filter(lambda l: l[0] != '#', f.readlines()[:-1])
-        zipped = map(lambda l: map(float, l.strip().split()[:3]), lines)
-        return map(list, zip(*zipped))
-        
         
     def normalize(self):
         """normalize self.rate and self.error. (ignore negative-values)"""
@@ -65,7 +69,7 @@ class TimeSeries:
         s = copy.copy(self.rate)
         for i in range(smoothness):
             s = self.wma_err(wma_width)
-        return s
+        self.smoothed = s
 
     
     def wma_err(self, n):
